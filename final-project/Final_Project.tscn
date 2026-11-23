@@ -1,3 +1,39 @@
 [gd_scene format=3 uid="uid://t68uyuov55lf"]
 
+[ext_resource type="PackedScene" uid="uid://cnwp7ndjr4s8y" path="res://Quest2Controllers/OculusQuest2TouchController_Left.gltf" id="1_c7an0"]
+[ext_resource type="PackedScene" uid="uid://bc8lh0rihgxvi" path="res://Quest2Controllers/OculusQuest2TouchController_Right.gltf" id="2_3hovh"]
+[ext_resource type="Material" uid="uid://cya074yxc1y5b" path="res://Materal/green.tres" id="3_3hovh"]
+
 [node name="Node3D" type="Node3D" unique_id=1890326962]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=243723545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0522758, 0)
+current = true
+
+[node name="Left" type="XRController3D" parent="XROrigin3D" unique_id=1707147061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.862871, 0, -0.8457391)
+tracker = &"left_hand"
+
+[node name="OculusQuest2TouchController_Left" parent="XROrigin3D/Left" unique_id=161824011 instance=ExtResource("1_c7an0")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Right" type="XRController3D" parent="XROrigin3D" unique_id=816390149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47875464, 0, -0.6870153)
+tracker = &"right_hand"
+
+[node name="OculusQuest2TouchController_Right" parent="XROrigin3D/Right" unique_id=170065327 instance=ExtResource("2_3hovh")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1927137360]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1946671325]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment" unique_id=899170009]
+size = Vector3(100, 0.01, 100)
+material = ExtResource("3_3hovh")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="WorldEnvironment" unique_id=458464023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82765603, -1.7695043)
+radius = 0.1
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment" unique_id=1246637959]
