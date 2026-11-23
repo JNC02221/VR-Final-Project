@@ -4,36 +4,82 @@
 [ext_resource type="PackedScene" uid="uid://bc8lh0rihgxvi" path="res://Quest2Controllers/OculusQuest2TouchController_Right.gltf" id="2_3hovh"]
 [ext_resource type="Material" uid="uid://cya074yxc1y5b" path="res://Materal/green.tres" id="3_3hovh"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_g36yv"]
+radius = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_adyyn"]
+radius = 0.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g36yv"]
+size = Vector3(100, 0.01, 100)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_htlxk"]
+radius = 0.3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_htlxk"]
+size = Vector3(1, 1, 0.2)
+
 [node name="Node3D" type="Node3D" unique_id=1890326962]
 
 [node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=243723545]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0522758, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.416933, 0)
 current = true
 
 [node name="Left" type="XRController3D" parent="XROrigin3D" unique_id=1707147061]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.862871, 0, -0.8457391)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.862871, 0, -1.2375048)
 tracker = &"left_hand"
 
-[node name="OculusQuest2TouchController_Left" parent="XROrigin3D/Left" unique_id=161824011 instance=ExtResource("1_c7an0")]
+[node name="Area3D" type="Area3D" parent="XROrigin3D/Left" unique_id=1681807943]
+
+[node name="OculusQuest2TouchController_Left" parent="XROrigin3D/Left/Area3D" unique_id=161824011 instance=ExtResource("1_c7an0")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Left/Area3D" unique_id=1352921924]
+shape = SubResource("SphereShape3D_g36yv")
 
 [node name="Right" type="XRController3D" parent="XROrigin3D" unique_id=816390149]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47875464, 0, -0.6870153)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47875464, 0, -1.1116616)
 tracker = &"right_hand"
 
-[node name="OculusQuest2TouchController_Right" parent="XROrigin3D/Right" unique_id=170065327 instance=ExtResource("2_3hovh")]
+[node name="Area3D" type="Area3D" parent="XROrigin3D/Right" unique_id=729338984]
+
+[node name="OculusQuest2TouchController_Right" parent="XROrigin3D/Right/Area3D" unique_id=170065327 instance=ExtResource("2_3hovh")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Right/Area3D" unique_id=163775445]
+shape = SubResource("SphereShape3D_adyyn")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1927137360]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1946671325]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="WorldEnvironment" unique_id=899170009]
+[node name="Ground" type="StaticBody3D" parent="WorldEnvironment" unique_id=1246637959]
+
+[node name="Floor" type="CSGBox3D" parent="WorldEnvironment/Ground" unique_id=899170009]
 size = Vector3(100, 0.01, 100)
 material = ExtResource("3_3hovh")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="WorldEnvironment" unique_id=458464023]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82765603, -1.7695043)
-radius = 0.1
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Ground" unique_id=1825116871]
+shape = SubResource("BoxShape3D_g36yv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment" unique_id=1246637959]
+[node name="Ball" type="RigidBody3D" parent="WorldEnvironment" unique_id=1377481795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6189995, -3.2834926)
+
+[node name="Shape" type="CSGSphere3D" parent="WorldEnvironment/Ball" unique_id=458464023]
+radius = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Ball" unique_id=1517369978]
+shape = SubResource("SphereShape3D_htlxk")
+
+[node name="Hoop" type="StaticBody3D" parent="WorldEnvironment" unique_id=61471094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7758882, 2.1858957, -4.3770223)
+
+[node name="Outer" type="CSGBox3D" parent="WorldEnvironment/Hoop" unique_id=1350438555]
+size = Vector3(1, 1, 0.2)
+
+[node name="inner" type="CSGBox3D" parent="WorldEnvironment/Hoop" unique_id=892160623]
+operation = 2
+size = Vector3(0.5, 0.5, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Hoop" unique_id=1620285366]
+shape = SubResource("BoxShape3D_htlxk")
