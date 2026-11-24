@@ -2,6 +2,7 @@ extends XRController3D
 
 @export var throw_multiplier: float = 5
 @export var velocity_samples: int = 6
+@export var flag: bool = false
 
 @onready var grab_area: Area3D = $Area3D
 @onready var ball: RigidBody3D = $"../../WorldEnvironment/Ball"
@@ -29,17 +30,19 @@ func _physics_process(delta):
 	# Carry the held ball with the hand
 	if held_body:
 		held_body.global_position = grab_area.global_position
-		
-	if ball.global_position.x > global_position.x + 15 or ball.global_position.z > global_position.z + 15:
-		ball.global_position = global_position
-		ball.linear_velocity = Vector3(0,0,0)
-		
-	if ball.global_position.x < global_position.x - 15 or ball.global_position.z < global_position.z - 15:
-		ball.global_position = global_position
-		ball.linear_velocity = Vector3(0,0,0)
-		
-	var distance := global_position.distance_to(ball.global_position)
-	print(distance)
+	
+	if !flag:
+		if ball.global_position.x > global_position.x + 15 or ball.global_position.z > global_position.z + 15:
+			ball.global_position = global_position
+			ball.linear_velocity = Vector3.ZERO
+			
+		if ball.global_position.x < global_position.x - 15 or ball.global_position.z < global_position.z - 15:
+			ball.global_position = global_position
+			ball.linear_velocity = Vector3.ZERO
+	
+	if flag:
+		var distance := global_position.distance_to(ball.global_position)
+		print(distance)
 
 func _get_throw_velocity() -> Vector3:
 	if velocity_history.is_empty():
@@ -59,6 +62,11 @@ func _on_body_exited(body):
 		candidate_body = null
 
 func _on_button_pressed(button_name: String):
+	if button_name == "ax_button":
+		#print("return")
+		ball.global_position = global_position
+		ball.linear_velocity = Vector3.ZERO
+	
 	if button_name == "grip_click" and candidate_body:
 		held_body = candidate_body
 		held_body.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
@@ -66,21 +74,20 @@ func _on_button_pressed(button_name: String):
 		held_body.linear_velocity = Vector3.ZERO
 		held_body.angular_velocity = Vector3.ZERO
 		
-	if button_name == 'trigger':
-		ball.global_position = global_position
+
 
 
 func _on_button_released(button_name: String):
 	if button_name == "grip_click" and held_body:
-		var ball := held_body
+		var ball1 := held_body
 		held_body = null
 
 		var throw_velocity := _get_throw_velocity()
 
-		ball.freeze = false
-		ball.linear_velocity = throw_velocity
+		ball1.freeze = false
+		ball1.linear_velocity = throw_velocity
 
 		# Re-apply after the physics server has processed the unfreeze
 		await get_tree().physics_frame
-		if is_instance_valid(ball):
-			ball.linear_velocity = throw_velocity
+		if is_instance_valid(ball1):
+			ball1.linear_velocity = throw_velocity

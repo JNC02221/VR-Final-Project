@@ -16,9 +16,27 @@ func _ready():
 
 
 func _on_body_entered(body: Node):
-	print(body.name)
+	#print(body.name)
 	if body.name == "Hoop" and can_score:
+		score += 2
+		print("Score: ", score)
+		scored.emit(score)
+
+		can_score = false
+		await get_tree().create_timer(score_cooldown).timeout
+		can_score = true
+		
+	if body.name == "Hoop2" and can_score:
 		score += 1
+		print("Score: ", score)
+		scored.emit(score)
+
+		can_score = false
+		await get_tree().create_timer(score_cooldown).timeout
+		can_score = true
+		
+	if body.name == "Hoop3" and can_score:
+		score += 4
 		print("Score: ", score)
 		scored.emit(score)
 

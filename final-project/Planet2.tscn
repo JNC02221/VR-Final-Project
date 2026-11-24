@@ -20,7 +20,13 @@ size = Vector3(100, 0.01, 100)
 radius = 0.3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_htlxk"]
-size = Vector3(1, 1, 0.2)
+size = Vector3(0.7, 0.7, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0552r"]
+size = Vector3(1.4, 1.4, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ovfxk"]
+size = Vector3(1.4, 1.4, 0.2)
 
 [node name="Node3D" type="Node3D" unique_id=1890326962]
 script = ExtResource("1_0552r")
@@ -79,7 +85,8 @@ radius = 0.2
 shape = SubResource("SphereShape3D_htlxk")
 
 [node name="Hoop" type="StaticBody3D" parent="WorldEnvironment" unique_id=61471094]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11295438, 1.4209404, -0.48759717)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9411376, 1.4209404, -8.675838)
+collision_layer = 2
 
 [node name="Outer" type="CSGBox3D" parent="WorldEnvironment/Hoop" unique_id=1350438555]
 size = Vector3(1, 1, 0.2)
@@ -92,12 +99,40 @@ size = Vector3(0.7, 0.7, 0.2)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Hoop" unique_id=1620285366]
 shape = SubResource("BoxShape3D_htlxk")
 
+[node name="Hoop2" type="StaticBody3D" parent="WorldEnvironment" unique_id=613993301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3397238, 1.4209404, -5.9791126)
+collision_layer = 2
+
+[node name="Outer" type="CSGBox3D" parent="WorldEnvironment/Hoop2" unique_id=687037574]
+size = Vector3(2, 2, 0.2)
+
+[node name="inner" type="CSGBox3D" parent="WorldEnvironment/Hoop2/Outer" unique_id=1098549101]
+operation = 2
+size = Vector3(1.4, 1.4, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Hoop2" unique_id=1622142117]
+shape = SubResource("BoxShape3D_0552r")
+
+[node name="Hoop3" type="StaticBody3D" parent="WorldEnvironment" unique_id=1359925907]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 6.5928936, 1.4209404, -0.0013363361)
+collision_layer = 2
+
+[node name="Outer" type="CSGBox3D" parent="WorldEnvironment/Hoop3" unique_id=1255022963]
+size = Vector3(2, 2, 0.2)
+
+[node name="inner" type="CSGBox3D" parent="WorldEnvironment/Hoop3/Outer" unique_id=1520215104]
+operation = 2
+size = Vector3(1.4, 1.4, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/Hoop3" unique_id=1314442391]
+shape = SubResource("BoxShape3D_ovfxk")
+
 [connection signal="button_pressed" from="XROrigin3D/Right" to="XROrigin3D/Right" method="_on_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/Right" to="XROrigin3D/Right" method="_on_button_released"]
-[connection signal="body_entered" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_body_entered"]
-[connection signal="body_entered" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_area_entered"]
 [connection signal="body_entered" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_body_exited"]
-[connection signal="body_exited" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_body_entered"]
 [connection signal="body_exited" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_area_exited"]
+[connection signal="body_exited" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_area_3d_body_exited"]
+[connection signal="body_exited" from="XROrigin3D/Right/Area3D" to="XROrigin3D/Right" method="_on_body_exited"]
 [connection signal="body_entered" from="WorldEnvironment/Ball" to="WorldEnvironment/Ball" method="_on_body_entered"]
