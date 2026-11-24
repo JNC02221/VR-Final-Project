@@ -54,11 +54,9 @@ func _on_body_entered(body):
 	if body is RigidBody3D:
 		candidate_body = body
 
-
 func _on_body_exited(body):
 	if body == candidate_body:
 		candidate_body = null
-
 
 func _on_button_pressed(button_name: String):
 	if button_name == "grip_click" and candidate_body:
